@@ -6,10 +6,11 @@ Rails.application.routes.draw do
     delete 'logout', to: 'sessions#destroy'
     
     get 'signup', to: 'users#new'
-    resources :user, only: [:index, :show, :new, :create] do
+    resources :users, only: [:index, :show, :new, :create] do
         member do
             get :followings
             get :followers
+            get :favorites
         end
         collection do
             get :search
@@ -17,5 +18,6 @@ Rails.application.routes.draw do
     end
 
     resources :microposts, only: [:create, :destroy]
+    resources :favorites, only: [:create, :destroy]    
     resources :relationships, only: [:create, :destroy]
 end

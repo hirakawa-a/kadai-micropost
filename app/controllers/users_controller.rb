@@ -9,7 +9,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @microposts = @user.microposts.order('created_at DESC').page(params[:page])
     counts(@user)
-    @favorites = Favorite.where("user_id = ?", @user)
   end
 
   def new
@@ -29,19 +28,23 @@ class UsersController < ApplicationController
   
   def followings
     @user = User.find(params[:id])
-    @followings = @user.followings.page(params[:page])
+    @users = @user.followings.page(params[:page])
     counts(@user)
+    render :show_follow
   end
   
   def followers
     @user = User.find(params[:id])
-    @followers = @user.followers.page(params[:page])
+    @users = @user.followers.page(params[:page])
     counts(@user)
+    render :show_follow
   end
 
-  def favorite
+  def favorites
     @user = User.find(params[:id])
-    @favorites = @user.favorites.page(params[:page])
+    @microposts = @user.favorite_microposts.page(params[:page])
+    counts(@user)
+    render :show
   end
 
 
